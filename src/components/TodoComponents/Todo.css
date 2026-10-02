@@ -79,7 +79,7 @@ form > input {
   background-color: #023131;
   border: 1px #000505;
   font-size: 1rem;
-  width: 125x;
+  width: 125px;
   height: 100px;
   
   border-bottom: 1px solid #000c0c;
@@ -111,3 +111,6 @@ input::placeholder {
   height: 100px;
   font-family: 'Inconsolata', monospace;
 }
+form > input { color: white; }
+.toDo:focus-visible { outline: 3px solid #454e6b; }
+@media (max-width: 650px) { .App { padding: 0 16px; } h1 { font-size: 48px; } form { width: 100%; flex-wrap: wrap; gap: 10px; } form > input, form > button { width: 100%; margin: 0; height: 60px; } .toDo { width: 100%; } }
