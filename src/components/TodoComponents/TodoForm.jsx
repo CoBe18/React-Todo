@@ -2,16 +2,16 @@ import React from 'react';
 
 const ToDoForm = props => {
     return(
-        <form>
+        <form onSubmit={props.handleAddToDo}>
             <input 
                 onChange={props.handleToDoChange}
-                type="text"
+                aria-label="New task" type="text"
                 name="toDo"
                 value={props.value}
                 placeholder="ToDo..."
             />
-            <button onClick={props.handleAddToDo}>Add a ToDo</button>
-            <button className="clear-btn" onClick={props.handleClearToDos}>Clear Completed Tasks</button>
+            <button type="submit">Add a ToDo</button>
+            <button type="button" className="clear-btn" onClick={props.handleClearToDos}>Clear Completed Tasks</button>
         </form>
     )
 };

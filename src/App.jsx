@@ -12,7 +12,7 @@ class App extends React.Component {
   constructor(){
     super();
     this.state = {
-      toDos: [
+      toDos: this.loadTasks() || [
         {
           task: 'Take Charli to the Groomer',
           id: 777,
@@ -43,9 +43,20 @@ class App extends React.Component {
     };
   }
 
+  loadTasks = () => {
+    try {
+      const tasks = JSON.parse(localStorage.getItem("everyday-todos"));
+      return Array.isArray(tasks) && tasks.every(t => t && typeof t.task === "string" && typeof t.completed === "boolean") ? tasks : null;
+    } catch { return null; }
+  };
+  componentDidUpdate() {
+    try { localStorage.setItem("everyday-todos", JSON.stringify(this.state.toDos)); }
+    catch { if (!this.state.storageWarning) this.setState({storageWarning: "Your browser cannot save tasks. Keep this tab open to retain your list."}); }
+  }
   addToDo = event => {
     event.preventDefault();
-    const newToDo = { task: this.state.toDo, completed: false, id: Date.now() };
+    if (!this.state.toDo.trim()) return;
+    const newToDo = { task: this.state.toDo.trim(), completed: false, id: Date.now() };
     this.setState({
       toDos: [...this.state.toDos, newToDo],
       toDo: ''
@@ -81,6 +92,7 @@ class App extends React.Component {
         <div className="header">
           <h1>My{" "}{" "}{" "} Everyday{" "}{" "}{" "} ToDo{" "}{" "}{" "} List!</h1>
         </div>
+        {this.state.storageWarning && <p role="alert">{this.state.storageWarning}</p>}
         <div className="form">
           <ToDoForm 
             value={this.state.toDo}
